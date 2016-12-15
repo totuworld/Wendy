@@ -1,0 +1,25 @@
+{
+  "name": "wendy",
+  "version": "0.0.1",
+  "description": "Game server for small development teams",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "6.x.x"
+  },
+  "author": "totuworld@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "debug": "^2.4.4",
+    "express": "^4.14.0",
+    "jsonwebtoken": "^7.2.1",
+    "morgan": "^1.7.0",
+    "pug": "^2.0.0-beta6",
+    "sequelize": "^3.27.0",
+    "tedious": "^1.14.0"
+  }
+}
