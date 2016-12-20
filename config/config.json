@@ -1,0 +1,24 @@
+{
+    "production":{
+        "host":"url",
+        "port": 1433,
+        "dialect": "mssql",
+        "username": "replace_username",
+        "password": "replace_password",
+        "dialectOptions":{
+            "encrypt": true,
+            "database":"db"
+        }
+    },
+    "development":{
+        "host":"url",
+        "port": 1433,
+        "dialect": "mssql",
+        "username": "replace_username",
+        "password": "replace_password",
+        "dialectOptions":{
+            "encrypt": true,
+            "database":"db"
+        }
+    }
+}

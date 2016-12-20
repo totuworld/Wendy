@@ -8,6 +8,9 @@ var app = require('./app');
 var debug = require('debug')('Wendy:server');
 var http = require('http');
 
+//RDB ORM 추가
+var models = require("./models");
+
 /**
  * Get port from environment and store in Express.
  */
@@ -24,8 +27,13 @@ var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
-
-server.listen(port);
+//RDB 싱크 진행.
+models.sequelize.sync()
+.then(function () {
+    debug("complete rdb sync");
+    debug("NODE_ENV", process.env.NODE_ENV || "development");
+    server.listen(port);
+});
 server.on('error', onError);
 server.on('listening', onListening);
 
