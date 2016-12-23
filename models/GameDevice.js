@@ -14,6 +14,7 @@ module.exports = function(sequelize, DataTypes) {
                 GameDevice.belongsTo(models.GameUser, {
                     onDelete: "CASCADE",
                     foreignKey: {
+                        name:'GameUserID',
                         allowNull: true
                     }
                 });
