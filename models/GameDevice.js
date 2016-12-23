@@ -5,11 +5,20 @@ module.exports = function(sequelize, DataTypes) {
         GameDeviceUID : { type : DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
         UUID:{type:DataTypes.STRING(60)},
         DeviceType:{type:DataTypes.INTEGER, defaultValue:0},
-        GameUserID : { type : DataTypes.INTEGER, defaultValue:0}, //GameUser와 연결
         MainFlag : { type : DataTypes.BOOLEAN, defaultValue:true }
     }, {
         timestamps: false,
-        tableName: 'GameDevice'
+        tableName: 'GameDevice',
+        classMethods: {
+            associate: function (models) {
+                GameDevice.belongsTo(models.GameUser, {
+                    onDelete: "CASCADE",
+                    foreignKey: {
+                        allowNull: true
+                    }
+                });
+            }
+        }
     });
     return GameDevice;
 };

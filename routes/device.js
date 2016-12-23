@@ -20,8 +20,8 @@ router.get('/token/:UUID', (req, res, next)=>{
                 //err 기기미등록
                 throw wendyError('UnregisteredDevice');
             }
-            //기기에 GameUserID가 0인가?
-            if(findGameDevice.GameUserID === 0) {
+            //기기에 GameUserID가 null인가?
+            if(findGameDevice.GameUserGameUserID === null) {
                 //err 등록된 기기이며 아이디가 미생성된 경우
                 throw wendyError('CreateID');
             }
@@ -33,7 +33,7 @@ router.get('/token/:UUID', (req, res, next)=>{
             return Promise.resolve(findGameDevice);
         })
         .then((findGameDevice)=>{
-            let tokenObj = {GameUserID:findGameDevice.GameUserID, GameDeviceUID:findGameDevice.GameDeviceUID};
+            let tokenObj = {GameUserID:findGameDevice.GameUserGameUserID, GameDeviceUID:findGameDevice.GameDeviceUID};
             let token = auth.signToken(tokenObj);
             return Promise.resolve({
                 result:0,

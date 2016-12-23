@@ -62,10 +62,10 @@ router.post('/', (req, res, next)=>{
                 //err 기기미등록
                 throw wendyError('UnregisteredDevice');
             }
-            //기기에 GameUserID가 0인가?
-            else if(findGameDevice.GameUserID !== 0) {
+            //기기에 GameUserID가 null인가?
+            else if(findGameDevice.GameUserGameUserID !== null) {
                 saveGameDeviceUID = findGameDevice.GameDeviceUID;
-                saveGameUserID = findGameDevice.GameUserID;
+                saveGameUserID = findGameDevice.GameUserGameUserID;
                 //err 등록된 기기이며 아이디가 이미 있는 상태
                 return Promise.reject('pass')
             }
@@ -109,7 +109,7 @@ router.post('/', (req, res, next)=>{
             if(saveGameDeviceUID === 0) {
                 return Promise.resolve();
             }
-            return models.GameDevice.update({GameUserID:saveGameUserID}, {where:{GameDeviceUID:saveGameDeviceUID}});
+            return models.GameDevice.update({GameUserGameUserID:saveGameUserID}, {where:{GameDeviceUID:saveGameDeviceUID}});
         })
         //전송 결과 제작
         .then(CreateResult)
