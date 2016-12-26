@@ -42,6 +42,7 @@ if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
         res.status(err.status || 500);
         res.send({
+            result: err.code || 99999,
             message: err.message,
             error: err
         });
@@ -53,6 +54,7 @@ if (app.get('env') === 'development') {
 app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.send({
+        result: err.code || 99999,
         message: err.message,
         error: {}
     });
