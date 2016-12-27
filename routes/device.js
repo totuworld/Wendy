@@ -37,7 +37,9 @@ router.get('/token/:UUID', (req, res, next)=>{
             return Promise.resolve(findGameDevice);
         })
         .then((findGameDevice)=>{
-            let tokenObj = {GameUserID:findGameDevice.GameUserID, GameDeviceUID:findGameDevice.GameDeviceUID};
+            let tokenObj = {
+                GameUserID:findGameDevice.GameUserID, 
+                GameDeviceUID:findGameDevice.GameDeviceUID};
             let token = auth.signToken(tokenObj);
             return Promise.resolve({
                 result:0,

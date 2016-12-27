@@ -99,7 +99,10 @@ router.post('/', (req, res, next)=>{
         })
         //GameUser 등록
         .then(()=>{
-            return models.GameUser.create({NickName:req.body.NickName, Locale:req.body.Locale, OffsetTime:req.body.OffsetTime});
+            return models.GameUser.create({
+                NickName:req.body.NickName, 
+                Locale:req.body.Locale, 
+                OffsetTime:req.body.OffsetTime});
         })
         .then((createGameUser)=>{
             saveGameUserID = createGameUser.GameUserID;
@@ -110,7 +113,9 @@ router.post('/', (req, res, next)=>{
             if(saveGameDeviceUID === 0) {
                 return Promise.resolve();
             }
-            return models.GameDevice.update({GameUserID:saveGameUserID}, {where:{GameDeviceUID:saveGameDeviceUID}});
+            return models.GameDevice.update(
+                {GameUserID:saveGameUserID}, 
+                {where:{GameDeviceUID:saveGameDeviceUID}});
         })
         //전송 결과 제작
         .then(CreateResult)
