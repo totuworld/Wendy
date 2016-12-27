@@ -3,6 +3,7 @@
 const debug = require('debug')('Wendy:utils:auth');
 
 const jwt = require('jsonwebtoken');
+const wendyError = require('../utils/error');
 ///!!!반드시 외부에 노출되는 코드에는 secret을 직접 적지 않아야한다!!!
 const SECRET       = process.env.AuthSECRET || "secret";
 const EXPIRES = 3600; // 1 hour
@@ -26,8 +27,8 @@ exports.isAuthenticated = (req, res, next) =>{
     debug('isAuthenticated');
     jwt.verify(req.headers.authorization, SECRET, (err, decoded)=>{
         if(err) {
-            // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM SOMEWHERE
-            res.status(401).send('The request has not been applied because it lacks valid authentication credentials for the target resource.')
+            let error = wendyError('CredentialFailure');
+            res.status(401).send({result:error.code, message:error.message});
         }
         else {
             // Attach user to request

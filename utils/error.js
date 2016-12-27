@@ -23,6 +23,15 @@ class DontHaveRequiredParams extends CustomError {
     }
 }
 
+/** 99102 */
+class CredentialFailure extends CustomError {
+    constructor() {
+        let message = '대상 리소스에 유효한 인증 자격 증명이 없기 때문에 요청이 적용되지 않았다.';
+        let code = 99102;
+        super(message, code);
+    }
+}
+
 /** 80101 */
 class UnregisteredDevice extends CustomError {
     constructor() {
@@ -70,6 +79,7 @@ class NickNameToLongOrShot extends CustomError {
 
 let errorMap = {
     "DontHaveRequiredParams":DontHaveRequiredParams,
+    "CredentialFailure":CredentialFailure,
     "UnregisteredDevice":UnregisteredDevice,
     "UsedOnOtherDevice":UsedOnOtherDevice,
     "CreateID":CreateID,
