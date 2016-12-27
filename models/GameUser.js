@@ -8,6 +8,7 @@ module.exports = function(sequelize, DataTypes) {
         NickName : { type : DataTypes.STRING(32) },
         Locale : { type : DataTypes.STRING(6)},
         OffsetTime : { type :DataTypes.INTEGER, defaultValue: 0},
+        OffsetTimeUpdateAt : { type : DataTypes.DATE, defaultValue: Sequelize.NOW},
         createAt : { type : DataTypes.DATE, defaultValue: Sequelize.NOW},
         loginAt : { type : DataTypes.DATE, defaultValue: Sequelize.NOW}
     }, {

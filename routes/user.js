@@ -12,14 +12,15 @@ const wendyError = require('../utils/error');
 const express = require('express');
 const router = express.Router();
 
-
-//사용자 등록
+/**
+ * @api {POST} /user 사용자 등록
+ * @apiName 모바일 기기 등록
+ * @apiParam {String{1..60}} NickName 사용자 닉네임
+ * @apiParam {String} Locale 로케일
+ * @apiParam {String{1..60}} UUID 기기의 UUID
+ * @apiParam {Number} OffsetTime timezone을 UTC+x 형태로 등록하기위한 숫자
+ */
 router.post('/', (req, res, next)=>{
-    //req.body
-    //NickName
-    //Locale
-    //UUID
-    //OffsetTime
 
 
     let checkRequestBody = commonFunc.ObjectExistThatKeys(req.body, ['UUID', 'NickName', 'Locale']);
@@ -127,7 +128,11 @@ router.post('/', (req, res, next)=>{
         })
 });
 
-//사용자 정보 조회
+/**
+ * @api {GET} /user 사용자 정보 조회
+ * @apiName 사용자 정보 조회
+ * @apiHeader {String} Authorization JWT토큰을 전송
+ */
 router.get('/', auth.isAuthenticated, (req, res, next)=>{
     let nowDate = new Date();
 

@@ -10,7 +10,11 @@ const express = require('express');
 const router = express.Router();
 
 
-//토큰 요청
+/**
+ * @api {GET} /device/token/:UUID 토큰 요청
+ * @apiName 접속 토큰 요청
+ * @apiParam {String{1..60}} UUID 기기의 UUID
+ */
 router.get('/token/:UUID', (req, res, next)=>{
     
     //UUID로 등록된 기기가 있는가?
@@ -49,13 +53,16 @@ router.get('/token/:UUID', (req, res, next)=>{
         })
 });
 
-//기기 등록
+/**
+ * @api {POST} /device 기기 등록
+ * @apiName 모바일 기기 등록
+ * @apiParam {String{1..60}} UUID 기기의 UUID
+ * @apiParam {Number} DeviceType 기기 종류 1:aOS, 2:iOS, 10:UnityEditor
+ */
 router.post('/', (req, res, next)=>{   
-    //req.body
-    //UUID
-    //DeviceType
     
-    let checkRequestBody = commonFunc.ObjectExistThatKeys(req.body, ['UUID', 'DeviceType']);
+    let checkRequestBody 
+        = commonFunc.ObjectExistThatKeys(req.body, ['UUID', 'DeviceType']);
     if(checkRequestBody === false) {
         throw wendyError('DontHaveRequiredParams');
     }
@@ -65,9 +72,11 @@ router.post('/', (req, res, next)=>{
         .then((findGameDevice)=>{
             if(findGameDevice === null) {
                 //기기등록 시작
-                return models.GameDevice.create({UUID:req.body.UUID, DeviceType:req.body.DeviceType})
+                return models.GameDevice.create(
+                    {UUID:req.body.UUID, 
+                    DeviceType:req.body.DeviceType})
             }
-            return Promise.reject(findGameDevice);
+            return Promise.resolve(findGameDevice);
         })
         .then((gameDeviceData)=>{
             return Promise.resolve({result:0})
