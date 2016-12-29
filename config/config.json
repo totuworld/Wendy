@@ -1,24 +1,24 @@
 {
     "production":{
-        "host":"url",
+        "host":"wendy.database.windows.net",
         "port": 1433,
         "dialect": "mssql",
         "username": "replace_username",
         "password": "replace_password",
         "dialectOptions":{
             "encrypt": true,
-            "database":"db"
+            "database":"wendydb"
         }
     },
     "development":{
-        "host":"url",
+        "host":"wendy.database.windows.net",
         "port": 1433,
         "dialect": "mssql",
         "username": "replace_username",
         "password": "replace_password",
         "dialectOptions":{
             "encrypt": true,
-            "database":"db"
+            "database":"wendydb"
         }
     }
 }
