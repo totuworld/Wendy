@@ -59,6 +59,7 @@ Wendy가 지원할 필수 기능입니다.
 ## 강좌 링크
 
 1. [Hello, world!](http://totuworld.github.io/2016/12/21/azureandunity-01/)
+2. [SQL 데이터베이스와 환경 설정](http://totuworld.github.io/2016/12/29/azureandunity-02/)
 
 ## License
 
