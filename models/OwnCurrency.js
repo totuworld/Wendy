@@ -2,9 +2,12 @@
 
 module.exports = function(sequelize, DataTypes) {
     let OwnCurrency= sequelize.define('OwnCurrency', {
-        OwnCurrencyUID : { type : DataTypes.INTEGER, primaryKey: true, autoIncrement:true},
+        OwnCurrencyUID : { type : DataTypes.INTEGER, primaryKey: true, autoIncrement:true },
         CurrencyID : { type : DataTypes.INTEGER },
-        QNTY:{type:DataTypes.INTEGER, defaultValue:0}
+        CurrentQNTY : { type:DataTypes.INTEGER, defaultValue:0 }, //실제 현재보유수량
+        NowMaxQNTY : { type:DataTypes.INTEGER, defaultValue:100 }, //현재 최대보유수량
+        AddMaxQNTY : { type:DataTypes.INTEGER, defaultValue:0 }, //어떤 조건으로 추가되는 최대 보유수량
+        UpdateTimeStamp: { type:DataTypes.DATE, defaultValue:sequelize.NOW }
     }, {
         timestamps: false,
         tableName: 'OwnCurrency',
@@ -27,6 +30,10 @@ module.exports = function(sequelize, DataTypes) {
                     }
                 });
             }
+        },
+        getterMethods: {
+            //전체 보유수량 = NowMaxQNTY + AddMaxQNTY
+            TotalQNTY : function() { return this.NowMaxQNTY + this.AddMaxQNTY }
         }
     });
     return OwnCurrency;

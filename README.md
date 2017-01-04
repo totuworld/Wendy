@@ -1,3 +1,5 @@
+<img src="docs/Wanlaf.png" alt="logo" height="120" align="right" />
+
 # Wendy
 소규모 게임 개발팀을 위한 게임 서버
 
@@ -9,7 +11,7 @@ Wendy는 게임을 운영할 때 필요한 기능을 포함한 게임 서버입�
 이런 문제에서 소규모 게임 개발팀이 조금이나마 도움이 되길 원합니다.
 
 ### 커뮤니티
-* 향후 트위터나 페이스북등의 공식채널을 제공합니다.
+* twitter : [@magmakick](https://twitter.com/magmakick)
 * 버그나 이슈는 [issue tracker](https://github.com/totuworld/Wendy/issues)에 등록해주세요.
 * 새로운 기능이나 업데이트가 있으시다면 pull request 보내주세요. :)
 
@@ -26,6 +28,7 @@ yarn 패키지 매니저를 통해 설치를 진행합니다. yarn이 이미 설
 $ npm install -g yarn
 $ yarn install
 ```
+
 ### 실행방법
 실행 방법은 아주 간단합니다.
 
@@ -41,8 +44,9 @@ Wendy가 지원할 필수 기능입니다.
 
 - [x] 기기정보 관리
 - [x] 사용자 정보 관리
-- [ ] 재화 관리
+- [x] 통화 관리
 - [ ] 아이템 관리
+- [ ] 지급 관리
 - [ ] 인앱 영수증 검증
 
 ### 부가 기능
