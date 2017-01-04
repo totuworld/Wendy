@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const routes = require('./routes/index');
 const user = require('./routes/user');
 const device = require('./routes/device');
+const currency = require('./routes/currency');
 
 let app = express();
 
@@ -26,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/user', user);
 app.use('/device', device);
+app.use('/currency', currency);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
