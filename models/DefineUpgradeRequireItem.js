@@ -2,7 +2,7 @@
 
 module.exports = function(sequelize, DataTypes) {
     let DefineUpgradeRequireItem= sequelize.define('DefineUpgradeRequireItem', {
-        Level : { type:DataTypes.INTEGER},
+        Tier : { type:DataTypes.INTEGER},
         RequireQNTY : { type:DataTypes.INTEGER, defaultValue:1 }
     }, {
         timestamps: false,

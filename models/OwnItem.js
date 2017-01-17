@@ -5,6 +5,8 @@ module.exports = function(sequelize, DataTypes) {
         OwnItemUID : { type : DataTypes.INTEGER, primaryKey: true, autoIncrement:true },
         ItemID : { type : DataTypes.INTEGER },
         CurrentQNTY : { type:DataTypes.INTEGER, defaultValue:0 },
+        Level : { type:DataTypes.INTEGER, defaultValue:1 },
+        Tier : { type:DataTypes.INTEGER, defaultValue:1 },
         UpdateTimeStamp: { type:DataTypes.DATE, defaultValue:sequelize.NOW }
     }, {
         timestamps: false,

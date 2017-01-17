@@ -3,6 +3,7 @@
 module.exports = function(sequelize, DataTypes) {
     let DefineItem= sequelize.define('DefineItem', {
         ItemID : { type : DataTypes.INTEGER, primaryKey: true },
+        ItemType : {type : DataTypes.INTEGER },
         Name : { type:DataTypes.STRING(10) },
         Multiple : { type : DataTypes.BOOLEAN, defaultValue:false },
         MaxQNTY : { type:DataTypes.INTEGER, defaultValue:1 }

@@ -77,6 +77,60 @@ class NickNameToLongOrShot extends CustomError {
     }
 }
 
+/** 80501 */
+class NotInOwnItemList extends CustomError {
+    constructor() {
+        let message = '보유한 아이템 중에 해당 아이템이 없다.';
+        let code = 80501;
+        super(message, code);
+    }
+}
+
+/** 80502 */
+class MaterialDoesNotExistOwnItemList extends CustomError {
+    constructor() {
+        let message = '보유한 아이템 중에 재료로 사용할 아이템이 없다.';
+        let code = 80502;
+        super(message, code);
+    }
+}
+
+/** 80503 */
+class NotEnoughItem extends CustomError {
+    constructor() {
+        let message = '해당 아이템이 충분하지 않다.';
+        let code = 80503;
+        super(message, code);
+    }
+}
+
+/** 80511 */
+class CantReinfoceItem extends CustomError {
+    constructor() {
+        let message = '강화가 불가능한 아이템';
+        let code = 80511;
+        super(message, code);
+    }
+}
+
+/** 80512 */
+class DidntRegisterReinfoceRequireItem extends CustomError {
+    constructor() {
+        let message = '강화에 필요한 아이템이 등록하지 않았다';
+        let code = 80512;
+        super(message, code);
+    }
+}
+
+/** 80513 */
+class NoLongerReinforce extends CustomError {
+    constructor() {
+        let message = '더 이상 강화되지 않는다(최대레벨도달)';
+        let code = 80513;
+        super(message, code);
+    }
+}
+
 let errorMap = {
     "DontHaveRequiredParams":DontHaveRequiredParams,
     "CredentialFailure":CredentialFailure,
@@ -84,7 +138,15 @@ let errorMap = {
     "UsedOnOtherDevice":UsedOnOtherDevice,
     "CreateID":CreateID,
     "UsedNickName":UsedNickName,
-    "NickNameToLongOrShot":NickNameToLongOrShot
+    "NickNameToLongOrShot":NickNameToLongOrShot,
+
+    "NotInOwnItemList":NotInOwnItemList,
+    "MaterialDoesNotExistOwnItemList":MaterialDoesNotExistOwnItemList,
+    "NotEnoughItem":NotEnoughItem,
+
+    "CantReinfoceItem":CantReinfoceItem,
+    "DidntRegisterReinfoceRequireItem":DidntRegisterReinfoceRequireItem,
+    "NoLongerReinforce":NoLongerReinforce
 }
 
 module.exports = function(errorName) {
