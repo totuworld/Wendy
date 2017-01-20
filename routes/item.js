@@ -95,7 +95,10 @@ function LoadOwnItem(OwnItemUID, GameUserID) {
     })
 }
 
-function LoadDefineItem(ItemID, ColumnName='ReinforceItemID', errType='CantReinfoceItem') {
+function LoadDefineItem(
+    ItemID, 
+    ColumnName='ReinforceItemID', 
+    errType='CantReinfoceItem') {
     //아이템 정보 로딩
     return models.DefineItem.findOne({
                 where:{
