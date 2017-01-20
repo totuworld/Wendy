@@ -131,6 +131,33 @@ class NoLongerReinforce extends CustomError {
     }
 }
 
+/** 80521 */
+class CantUpgradeItem extends CustomError {
+    constructor() {
+        let message = '승급이 불가능한 아이템';
+        let code = 80521;
+        super(message, code);
+    }
+}
+
+/** 80522 */
+class DidntRegisterUpgradeRequireItem extends CustomError {
+    constructor() {
+        let message = '승급에 필요한 아이템이 등록하지 않았다';
+        let code = 80522;
+        super(message, code);
+    }
+}
+
+/** 80523 */
+class NoLongerUpgrade extends CustomError {
+    constructor() {
+        let message = '더 이상 승급이 불가능(최대 등급 도달)';
+        let code = 80523;
+        super(message, code);
+    }
+}
+
 let errorMap = {
     "DontHaveRequiredParams":DontHaveRequiredParams,
     "CredentialFailure":CredentialFailure,
@@ -146,7 +173,11 @@ let errorMap = {
 
     "CantReinfoceItem":CantReinfoceItem,
     "DidntRegisterReinfoceRequireItem":DidntRegisterReinfoceRequireItem,
-    "NoLongerReinforce":NoLongerReinforce
+    "NoLongerReinforce":NoLongerReinforce,
+
+    "CantUpgradeItem":CantUpgradeItem,
+    "DidntRegisterUpgradeRequireItem":DidntRegisterUpgradeRequireItem,
+    "NoLongerUpgrade":NoLongerUpgrade
 }
 
 module.exports = function(errorName) {

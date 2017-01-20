@@ -95,7 +95,7 @@ function LoadOwnItem(OwnItemUID, GameUserID) {
     })
 }
 
-function LoadDefineItem(ItemID, errType='CantReinfoceItem') {
+function LoadDefineItem(ItemID, ColumnName='ReinforceItemID', errType='CantReinfoceItem') {
     //아이템 정보 로딩
     return models.DefineItem.findOne({
                 where:{
@@ -103,7 +103,7 @@ function LoadDefineItem(ItemID, errType='CantReinfoceItem') {
                 }
             })
     .then((itemInfo)=>{
-        if(itemInfo.ReinforceItemID === null)
+        if(itemInfo[ColumnName] === null)
             throw wendyError(errType);
         return Promise.resolve(itemInfo);
     })
@@ -242,6 +242,126 @@ router.post('/reinforce/:OwnItemUID', auth.isAuthenticated, (req, res, next)=>{
     .then(()=>{
         return models.OwnItem.update({
             Level:loadItems.targetItem['Level']+1
+        },
+        {where:{
+            OwnItemUID:loadItems.targetItem.OwnItemUID
+        }});
+    })
+    .then(()=>{
+        res.send({result:0});
+    })
+    .catch((err)=>{
+        next(err);
+    })
+})
+
+/**
+ * @api {POST} /item/upgrade/:OwnItemUID
+ * @apiName 승급 요청
+ * @apiHeader {String} Authorization JWT토큰을 전송
+ * @apiParam {Array} materialItemUID 소모할 ItemUID
+ * @apiParam {Array} materialCurrencyUID 소모할 CurrencyUID
+ */
+router.post('/upgrade/:OwnItemUID', auth.isAuthenticated, (req, res, next)=>{
+
+    let checkRequestBody = commonFunc.ObjectExistThatKeys(
+            req.body, 
+            ['materialItemUID', 'materialCurrencyUID']);
+    if(checkRequestBody === false) {
+        throw wendyError('DontHaveRequiredParams');
+    }
+
+    let loadItems = { 
+        targetItem : null,
+        targetItemInfo : null,
+        LoadInfos : new Map()
+    };
+
+    //보유 아이템 로딩
+    LoadOwnItem(
+        req.params.OwnItemUID, 
+        req.user.GameUserID)
+    .then((OwnItem)=>{
+        loadItems.targetItem = OwnItem;
+        return Promise.resolve();
+    })
+    //아이템 정보 로딩
+    .then(()=>{
+        return LoadDefineItem(
+            loadItems.targetItem.ItemID,
+            'UpgradeItemID',
+            'CantUpgradeItem'
+        );
+    })
+    .then((itemInfo)=>{
+        loadItems.targetItemInfo = itemInfo;
+        return Promise.resolve();
+    })
+    //승급 데이터 로딩.
+    .then(()=>{
+        return  models.DefineUpgradeItem.findOne({
+            where:{
+                UpgradeItemID:
+                    loadItems.targetItemInfo['UpgradeItemID']
+            },
+            include: [{
+                model: models['DefineUpgradeRequireItem'],
+                as: 'UpgradeInfo',
+                include: [{
+                    model: models.DefineItem,
+                    attributes : ['ItemType', 'Multiple']
+                }]
+            }]
+        })
+    })
+    .then((upgradeInfos)=>{
+
+        //승급에 사용되는 아이템이 정의되었는가?
+        if(upgradeInfos.UpgradeInfo.length === 0) 
+            throw wendyError('DidntRegisterUpgradeRequireItem');
+
+        //Tier로 정렬.
+        upgradeInfos.UpgradeInfo.sort((a,b)=>{
+            return a.Tier - b.Tier;
+        })
+
+        //다음 Tier로 승급이 가능한지 확인?
+        let possibleUpgrade = false;
+        for(let row of upgradeInfos.UpgradeInfo) {
+            if(row['Tier'] === loadItems.targetItem['Tier']) {
+                possibleUpgrade = true;
+                loadItems.LoadInfos.set(row.ItemID, row);
+            }
+        }
+        if(possibleUpgrade === false)
+            throw wendyError('NoLongerUpgrade')
+
+        return Promise.resolve();
+    })
+    //아이템과 통화를 충분한 량 보유했는지 체크.
+    .then(()=>{
+        return DecoretorMaterials(
+            materialCtrl.existEnoughMaterial,
+            loadItems.LoadInfos,
+            req.user.GameUserID,
+            req.body.materialItemUID,
+            req.body.materialCurrencyUID
+        );
+    })
+    //아이템 및 통화, 삭제 혹은 차감처리
+    .then(()=>{
+        return DecoretorMaterials(
+            materialCtrl.decrementMaterial,
+            loadItems.LoadInfos,
+            req.user.GameUserID,
+            req.body.materialItemUID,
+            req.body.materialCurrencyUID
+        );
+    })
+    //승급으로 Tier 반영.
+    .then(()=>{
+        return models.OwnItem.update({
+            Tier:loadItems.targetItem['Tier']+1
         },
         {where:{
             OwnItemUID:loadItems.targetItem.OwnItemUID
