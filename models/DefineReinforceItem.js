@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes) {
             associate: function (models) {
                 DefineReinforceItem.hasMany(models.DefineReinforceRequireItem, {
                     foreignKey: {
-                        name:'ReinforceRequireItemID',
+                        name:'ReinforceItemID',
                         allowNull: false
                     },
                     as:'LevelInfo'

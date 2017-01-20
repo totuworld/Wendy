@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes) {
             associate: function (models) {
                 DefineUpgradeItem.hasMany(models.DefineUpgradeRequireItem, {
                     foreignKey: {
-                        name:'UpgradeRequireItemID',
+                        name:'UpgradeItemID',
                         allowNull: false
                     },
                     as:'UpgradeInfo'
