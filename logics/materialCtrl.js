@@ -137,3 +137,129 @@ let decrementMaterialForCurrency = (GameUserID, ItemID, Amount)=>{
         return ownCurrency.decrement('CurrentQNTY', {by:Amount});
     })
 }
+
+exports.incrementMaterial = (GameUserID, ItemID, Amount, NowMaxQNTY=null)=>{
+    return models.DefineItem.findOne({
+        where:{
+            ItemID:ItemID
+        }
+    })
+    .then((defineItem)=>{
+        if(defineItem === null || defineItem === undefined)
+            throw wendyError('UndefinedItem');
+
+        switch(defineItem.ItemType) {
+            case 10://통화 상품
+                return incrementMaterialForCurrency(
+                    GameUserID, ItemID, Amount, NowMaxQNTY);
+                break;
+            default ://특별한 정의가 없다면 모두 아이템을 처리한다.
+                return incrementMaterialForItem(
+                    GameUserID, defineItem, ItemID, Amount);
+                break;
+        }
+    })
+}
+
+let createCurrency = (GameUserID, ItemID, Amount, defineCurrency=null, NowMaxQNTY=null)=>{
+    let createObj = {
+        GameUserID:GameUserID, 
+        CurrencyID:ItemID,
+        CurrentQNTY:Amount,
+        NowMaxQNTY:NowMaxQNTY===null?100:NowMaxQNTY
+    }
+
+    return Promise.resolve()
+    .then(()=>{
+        if(NowMaxQNTY!==null)
+            return Promise.reject('pass');
+        return Promise.resolve();
+    })
+    .then(()=>{
+        if( defineCurrency!==null )
+            createObj.NowMaxQNTY = defineCurrency.MaxQNTY;
+        return Promise.resolve();
+    })
+    .catch((err)=>{
+        if(err && err instanceof Error) {
+            return Promise.reject(err);
+        }
+        else if(err==='pass')
+            return Promise.resolve();
+    })
+    .then(()=>{
+        return models.OwnCurrency.create(createObj);
+    })
+}
+
+let incrementMaterialForCurrency = (GameUserID, ItemID, Amount, NowMaxQNTY=null)=>{
+    let defineCurrency = null;
+
+    return models.DefineCurrency.findOne({CurrencyID:ItemID})
+    .then((loadDefineCurrency)=>{
+        if( !(loadDefineCurrency === null || loadDefineCurrency===undefined) )
+            defineCurrency = loadDefineCurrency;
+        return Promise.resolve();
+    })
+    .then(()=>{
+        return models.OwnCurrency.findOne({
+            where:{
+                GameUserID:GameUserID, 
+                CurrencyID:ItemID
+            }})
+    })
+    .then((ownCurrency)=>{
+        if(ownCurrency === null || ownCurrency === undefined)
+            return createCurrency(
+                GameUserID, 
+                ItemID, 
+                Amount, 
+                defineCurrency,
+                NowMaxQNTY);
+        
+        let incrementValue = 
+            (ownCurrency.CurrentQNTY + Amount)>defineCurrency.MaxQNTY
+            ? defineCurrency.MaxQNTY - ownCurrency.CurrentQNTY
+            : Amount;
+        return ownCurrency.increment('CurrentQNTY', {by:incrementValue});
+    })
+}
+
+let incrementMaterialForItem = (GameUserID, defineItem, ItemID, Amount)=>{
+    return Promise.resolve()
+    .then(()=>{
+        if(defineItem.Multiple===false)
+            return Promise.reject('create');
+        return Promise.resolve();
+    })
+    .then(()=>{
+        return models.OwnItem.findOne({where:{
+            GameUserID:GameUserID,
+            ItemID:ItemID
+        }})
+    })
+    .then((ownItem)=>{
+        if(ownItem === null || ownItem === undefined)
+            return Promise.reject('create');
+        
+        let incrementValue = 
+            (ownItem.CurrentQNTY + Amount)>defineItem.MaxQNTY
+            ? defineItem.MaxQNTY - ownItem.CurrentQNTY
+            : Amount;
+        
+        return ownItem.increment('CurrentQNTY', {by:incrementValue})
+    })
+    .catch((err)=>{
+        if(err && err instanceof Error) {
+            return Promise.reject(err);
+        }
+        else if(err==='create') {
+            
+        }
+            return models.OwnItem.create({
+                GameUserID:GameUserID,
+                ItemID:ItemID,
+                CurrentQNTY:Amount
+            });
+    })
+}

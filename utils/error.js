@@ -104,6 +104,15 @@ class NotEnoughItem extends CustomError {
     }
 }
 
+/** 80504 */
+class UndefinedItem extends CustomError {
+    constructor() {
+        let message = '정의되지 않은 아이템이다.';
+        let code = 80504;
+        super(message, code);
+    }
+}
+
 /** 80511 */
 class CantReinfoceItem extends CustomError {
     constructor() {
@@ -170,6 +179,7 @@ let errorMap = {
     "NotInOwnItemList":NotInOwnItemList,
     "MaterialDoesNotExistOwnItemList":MaterialDoesNotExistOwnItemList,
     "NotEnoughItem":NotEnoughItem,
+    "UndefinedItem":UndefinedItem,
 
     "CantReinfoceItem":CantReinfoceItem,
     "DidntRegisterReinfoceRequireItem":DidntRegisterReinfoceRequireItem,
