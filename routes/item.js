@@ -245,7 +245,7 @@ router.post('/reinforce/:OwnItemUID', auth.isAuthenticated, (req, res, next)=>{
     .then(()=>{
         return models.OwnItem.update({
             Level:loadItems.targetItem['Level']+1,
-            UpgradeTimeStamp: new Date()
+            UpdateTimeStamp: new Date()
         },
         {where:{
             OwnItemUID:loadItems.targetItem.OwnItemUID
@@ -366,7 +366,7 @@ router.post('/upgrade/:OwnItemUID', auth.isAuthenticated, (req, res, next)=>{
     .then(()=>{
         return models.OwnItem.update({
             Tier:loadItems.targetItem['Tier']+1,
-            UpgradeTimeStamp: new Date()
+            UpdateTimeStamp: new Date()
         },
         {where:{
             OwnItemUID:loadItems.targetItem.OwnItemUID
