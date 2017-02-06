@@ -244,7 +244,8 @@ router.post('/reinforce/:OwnItemUID', auth.isAuthenticated, (req, res, next)=>{
     //강화로 레벨업 반영.
     .then(()=>{
         return models.OwnItem.update({
-            Level:loadItems.targetItem['Level']+1
+            Level:loadItems.targetItem['Level']+1,
+            UpgradeTimeStamp: new Date()
         },
         {where:{
             OwnItemUID:loadItems.targetItem.OwnItemUID
@@ -364,7 +365,8 @@ router.post('/upgrade/:OwnItemUID', auth.isAuthenticated, (req, res, next)=>{
     //승급으로 Tier 반영.
     .then(()=>{
         return models.OwnItem.update({
-            Tier:loadItems.targetItem['Tier']+1
+            Tier:loadItems.targetItem['Tier']+1,
+            UpgradeTimeStamp: new Date()
         },
         {where:{
             OwnItemUID:loadItems.targetItem.OwnItemUID
