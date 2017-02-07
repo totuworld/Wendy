@@ -11,6 +11,7 @@ const user = require('./routes/user');
 const device = require('./routes/device');
 const currency = require('./routes/currency');
 const item = require('./routes/item');
+const reward = require('./routes/reward');
 
 let app = express();
 
@@ -30,6 +31,7 @@ app.use('/user', user);
 app.use('/device', device);
 app.use('/currency', currency);
 app.use('/item', item);
+app.use('/reward', reward);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

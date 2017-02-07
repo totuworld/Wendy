@@ -138,7 +138,7 @@ let decrementMaterialForCurrency = (GameUserID, ItemID, Amount)=>{
     })
 }
 
-exports.incrementMaterial = (GameUserID, ItemID, Amount, NowMaxQNTY=null)=>{
+let incrementMaterial = (GameUserID, ItemID, Amount, NowMaxQNTY=null)=>{
     return models.DefineItem.findOne({
         where:{
             ItemID:ItemID
@@ -161,12 +161,15 @@ exports.incrementMaterial = (GameUserID, ItemID, Amount, NowMaxQNTY=null)=>{
     })
 }
 
+exports.incrementMaterial = incrementMaterial;
+
 let createCurrency = (GameUserID, ItemID, Amount, defineCurrency=null, NowMaxQNTY=null)=>{
     let createObj = {
         GameUserID:GameUserID, 
         CurrencyID:ItemID,
         CurrentQNTY:Amount,
-        NowMaxQNTY:NowMaxQNTY===null?100:NowMaxQNTY
+        NowMaxQNTY:NowMaxQNTY===null?100:NowMaxQNTY,
+        UpdateTimeStamp:new Date()
     }
 
     return Promise.resolve()
@@ -195,7 +198,7 @@ let createCurrency = (GameUserID, ItemID, Amount, defineCurrency=null, NowMaxQNT
 let incrementMaterialForCurrency = (GameUserID, ItemID, Amount, NowMaxQNTY=null)=>{
     let defineCurrency = null;
 
-    return models.DefineCurrency.findOne({CurrencyID:ItemID})
+    return models.DefineCurrency.findOne({where:{CurrencyID:ItemID}})
     .then((loadDefineCurrency)=>{
         if( !(loadDefineCurrency === null || loadDefineCurrency===undefined) )
             defineCurrency = loadDefineCurrency;
@@ -217,12 +220,21 @@ let incrementMaterialForCurrency = (GameUserID, ItemID, Amount, NowMaxQNTY=null)
                 defineCurrency,
                 NowMaxQNTY);
         
-        let incrementValue = 
-            (ownCurrency.CurrentQNTY + Amount)>defineCurrency.MaxQNTY
-            ? defineCurrency.MaxQNTY - ownCurrency.CurrentQNTY
-            : Amount;
-        return ownCurrency.increment('CurrentQNTY', {by:incrementValue});
+        let incrementValue = (ownCurrency.CurrentQNTY + Amount);
+        if(incrementValue>defineCurrency.MaxQNTY)
+            incrementValue = defineCurrency.MaxQNTY;
+
+        return models.OwnCurrency.update(
+            { CurrentQNTY: incrementValue, UpdateTimeStamp: new Date() },
+            { where: { OwnCurrencyUID: ownCurrency['OwnCurrencyUID'] } }
+        )
+            .then(() => {
+                return models.OwnCurrency.findOne({
+                    where: { OwnCurrencyUID: ownCurrency['OwnCurrencyUID'] }
+                })
+            })
     })
+    
 }
 
 let incrementMaterialForItem = (GameUserID, defineItem, ItemID, Amount)=>{
@@ -248,18 +260,23 @@ let incrementMaterialForItem = (GameUserID, defineItem, ItemID, Amount)=>{
             : Amount;
         
         return ownItem.increment('CurrentQNTY', {by:incrementValue})
+        .then(()=>{
+            return models.OwnItem.findOne({where:{
+                OwnItemID:ownItem['OwnItemUID']
+            }})
+        })
     })
     .catch((err)=>{
         if(err && err instanceof Error) {
             return Promise.reject(err);
         }
         else if(err==='create') {
-            
-        }
             return models.OwnItem.create({
                 GameUserID:GameUserID,
                 ItemID:ItemID,
-                CurrentQNTY:Amount
+                CurrentQNTY:Amount,
+                UpdateTimeStamp:new Date()
             });
+        }
     })
 }

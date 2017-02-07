@@ -167,6 +167,43 @@ class NoLongerUpgrade extends CustomError {
     }
 }
 
+/** 80611 */
+class NotPresentRewardSetGroupID extends CustomError {
+    constructor() {
+        let message = 'RewardSetGroupID가 존재하지 않는다.';
+        let code = 80611;
+        super(message, code);
+    }
+}
+
+/** 80612 */
+class DidntRegisterRewardSet extends CustomError {
+    constructor() {
+        let message = 'RewardSetGroupID와 관련된 정보를 RewardSet에 등록하지 않았다.';
+        let code = 80612;
+        super(message, code);
+    }
+}
+
+
+/** 80621 */
+class NotPresentRewardGoodsGroupID extends CustomError {
+    constructor() {
+        let message = 'RewardGoodsGroupID가 존재하지 않는다.';
+        let code = 80621;
+        super(message, code);
+    }
+}
+
+/** 80622 */
+class DidntRegisterRewardGoods extends CustomError {
+    constructor() {
+        let message = 'RewardGoodsGroupID와 관련된 정보를 RewardGoods에 등록하지 않았다.';
+        let code = 80622;
+        super(message, code);
+    }
+}
+
 let errorMap = {
     "DontHaveRequiredParams":DontHaveRequiredParams,
     "CredentialFailure":CredentialFailure,
@@ -187,7 +224,13 @@ let errorMap = {
 
     "CantUpgradeItem":CantUpgradeItem,
     "DidntRegisterUpgradeRequireItem":DidntRegisterUpgradeRequireItem,
-    "NoLongerUpgrade":NoLongerUpgrade
+    "NoLongerUpgrade":NoLongerUpgrade,
+
+    "NotPresentRewardSetGroupID":NotPresentRewardSetGroupID,
+    "DidntRegisterRewardSet":DidntRegisterRewardSet,
+
+    "NotPresentRewardGoodsGroupID":NotPresentRewardGoodsGroupID,
+    "DidntRegisterRewardGoods":DidntRegisterRewardGoods
 }
 
 module.exports = function(errorName) {
