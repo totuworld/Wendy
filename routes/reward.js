@@ -50,9 +50,6 @@ router.get('/test/:RewardGroupID', auth.isAuthenticated, (req, res, next)=>{
 
     return Promise.resolve()
     .then(()=>{
-        if(env === 'development') {
-            return Promise.reject('pass');
-        }
         return Promise.resolve();
     })
     .then(()=>{
@@ -63,7 +60,7 @@ router.get('/test/:RewardGroupID', auth.isAuthenticated, (req, res, next)=>{
     })
     .catch((err)=>{
         if(err === 'pass')
-            res.send({result:0, reward:null})
+            res.send({result:0, reward:[]})
         else
             next(err);
     })
