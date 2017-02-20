@@ -46,24 +46,20 @@ router.get('/goods', auth.isAuthenticated, (req, res, next) => {
 
 const env       = process.env.NODE_ENV || "development";
 
-router.get('/test/:RewardGroupID', auth.isAuthenticated, (req, res, next)=>{
+if(env === 'development') {
+    router.get('/test/:RewardGroupID', auth.isAuthenticated, (req, res, next)=>{
 
-    return Promise.resolve()
-    .then(()=>{
-        return Promise.resolve();
-    })
-    .then(()=>{
-        return rewardCtrl.paymentMaterial(req.user.GameUserID, req.params.RewardGroupID);
-    })
-    .then((result)=>{
-        res.send({result:0, reward:result});
-    })
-    .catch((err)=>{
-        if(err === 'pass')
-            res.send({result:0, reward:[]})
-        else
-            next(err);
-    })
-});
+        rewardCtrl.paymentMaterial(req.user.GameUserID, req.params.RewardGroupID)
+        .then((result)=>{
+            res.send({result:0, reward:result});
+        })
+        .catch((err)=>{
+            if(err === 'pass')
+                res.send({result:0, reward:[]})
+            else
+                next(err);
+        })
+    });
+}
 
 module.exports = router;
