@@ -46,7 +46,8 @@ Wendy가 지원할 필수 기능입니다.
 - [x] 사용자 정보 관리
 - [x] 통화 관리
 - [x] 아이템 관리
-- [ ] 지급 관리
+- [x] 지급 관리
+- [x] 쿠폰
 - [ ] 인앱 영수증 검증
 
 ### 부가 기능
@@ -56,7 +57,6 @@ Wendy가 지원할 필수 기능입니다.
 * 상점
 * 가챠
 * 메시지
-* 쿠폰
 * 공지
 * 파일 관리
 * 로그
@@ -66,4 +66,6 @@ Wendy가 지원할 필수 기능입니다.
 1. [Hello, world!](http://totuworld.github.io/2016/12/21/azureandunity-01/)
 2. [SQL 데이터베이스와 환경 설정](http://totuworld.github.io/2016/12/29/azureandunity-02/)
 3. [기기와 사용자 관리](http://totuworld.github.io/2017/01/12/azureandunity-03/)
-4. [통화관리](http://totuworld.github.io/2017/01/26/azureandunity-04/)
+4. [통화 관리](http://totuworld.github.io/2017/01/26/azureandunity-04/)
+5. [아이템 관리](http://totuworld.github.io/2017/02/09/azureandunity-05/)
+6. [자원 지급 관리](http://totuworld.github.io/2017/02/21/azureandunity-06/)
