@@ -204,6 +204,52 @@ class DidntRegisterRewardGoods extends CustomError {
     }
 }
 
+/** 90101 */
+class UndefinedCoupon extends CustomError {
+    constructor() {
+        let message = '쿠폰이 존재하지 않는다.';
+        let code = 90101;
+        super(message, code);
+    }
+}
+
+/** 90102 */
+class ExpiredCoupon extends CustomError {
+    constructor() {
+        let message = '만료된 쿠폰';
+        let code = 90102;
+        super(message, code);
+    }
+}
+
+/** 90103 */
+class DidntRegisterCouponReward extends CustomError {
+    constructor() {
+        let message = '쿠폰에 지급할 상품이 정의되지 않았다.';
+        let code = 90103;
+        super(message, code);
+    }
+}
+
+/** 90104 */
+class NotEnoughCouponQNTY extends CustomError {
+    constructor() {
+        let message = '쿠폰 재고 모두 소진';
+        let code = 90104;
+        super(message, code);
+    }
+}
+
+/** 90105 */
+class AlreadyUsedCoupon extends CustomError {
+    constructor() {
+        let message = '이미 사용한 쿠폰';
+        let code = 90105;
+        super(message, code);
+    }
+}
+
+
 let errorMap = {
     "DontHaveRequiredParams":DontHaveRequiredParams,
     "CredentialFailure":CredentialFailure,
@@ -230,7 +276,13 @@ let errorMap = {
     "DidntRegisterRewardSet":DidntRegisterRewardSet,
 
     "NotPresentRewardGoodsGroupID":NotPresentRewardGoodsGroupID,
-    "DidntRegisterRewardGoods":DidntRegisterRewardGoods
+    "DidntRegisterRewardGoods":DidntRegisterRewardGoods,
+
+    "UndefinedCoupon":UndefinedCoupon,
+    "ExpiredCoupon":ExpiredCoupon,
+    "DidntRegisterCouponReward":DidntRegisterCouponReward,
+    "NotEnoughCouponQNTY":NotEnoughCouponQNTY,
+    "AlreadyUsedCoupon":AlreadyUsedCoupon
 }
 
 module.exports = function(errorName) {
