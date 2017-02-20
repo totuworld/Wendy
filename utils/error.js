@@ -104,6 +104,15 @@ class NotEnoughItem extends CustomError {
     }
 }
 
+/** 80504 */
+class UndefinedItem extends CustomError {
+    constructor() {
+        let message = '정의되지 않은 아이템이다.';
+        let code = 80504;
+        super(message, code);
+    }
+}
+
 /** 80511 */
 class CantReinfoceItem extends CustomError {
     constructor() {
@@ -158,6 +167,89 @@ class NoLongerUpgrade extends CustomError {
     }
 }
 
+/** 80611 */
+class NotPresentRewardSetGroupID extends CustomError {
+    constructor() {
+        let message = 'RewardSetGroupID가 존재하지 않는다.';
+        let code = 80611;
+        super(message, code);
+    }
+}
+
+/** 80612 */
+class DidntRegisterRewardSet extends CustomError {
+    constructor() {
+        let message = 'RewardSetGroupID와 관련된 정보를 RewardSet에 등록하지 않았다.';
+        let code = 80612;
+        super(message, code);
+    }
+}
+
+
+/** 80621 */
+class NotPresentRewardGoodsGroupID extends CustomError {
+    constructor() {
+        let message = 'RewardGoodsGroupID가 존재하지 않는다.';
+        let code = 80621;
+        super(message, code);
+    }
+}
+
+/** 80622 */
+class DidntRegisterRewardGoods extends CustomError {
+    constructor() {
+        let message = 'RewardGoodsGroupID와 관련된 정보를 RewardGoods에 등록하지 않았다.';
+        let code = 80622;
+        super(message, code);
+    }
+}
+
+/** 90101 */
+class UndefinedCoupon extends CustomError {
+    constructor() {
+        let message = '쿠폰이 존재하지 않는다.';
+        let code = 90101;
+        super(message, code);
+    }
+}
+
+/** 90102 */
+class ExpiredCoupon extends CustomError {
+    constructor() {
+        let message = '만료된 쿠폰';
+        let code = 90102;
+        super(message, code);
+    }
+}
+
+/** 90103 */
+class DidntRegisterCouponReward extends CustomError {
+    constructor() {
+        let message = '쿠폰에 지급할 상품이 정의되지 않았다.';
+        let code = 90103;
+        super(message, code);
+    }
+}
+
+/** 90104 */
+class NotEnoughCouponQNTY extends CustomError {
+    constructor() {
+        let message = '쿠폰 재고 모두 소진';
+        let code = 90104;
+        super(message, code);
+    }
+}
+
+/** 90105 */
+class AlreadyUsedCoupon extends CustomError {
+    constructor() {
+        let message = '이미 사용한 쿠폰';
+        let code = 90105;
+        super(message, code);
+    }
+}
+
+
 let errorMap = {
     "DontHaveRequiredParams":DontHaveRequiredParams,
     "CredentialFailure":CredentialFailure,
@@ -170,6 +262,7 @@ let errorMap = {
     "NotInOwnItemList":NotInOwnItemList,
     "MaterialDoesNotExistOwnItemList":MaterialDoesNotExistOwnItemList,
     "NotEnoughItem":NotEnoughItem,
+    "UndefinedItem":UndefinedItem,
 
     "CantReinfoceItem":CantReinfoceItem,
     "DidntRegisterReinfoceRequireItem":DidntRegisterReinfoceRequireItem,
@@ -177,7 +270,19 @@ let errorMap = {
 
     "CantUpgradeItem":CantUpgradeItem,
     "DidntRegisterUpgradeRequireItem":DidntRegisterUpgradeRequireItem,
-    "NoLongerUpgrade":NoLongerUpgrade
+    "NoLongerUpgrade":NoLongerUpgrade,
+
+    "NotPresentRewardSetGroupID":NotPresentRewardSetGroupID,
+    "DidntRegisterRewardSet":DidntRegisterRewardSet,
+
+    "NotPresentRewardGoodsGroupID":NotPresentRewardGoodsGroupID,
+    "DidntRegisterRewardGoods":DidntRegisterRewardGoods,
+
+    "UndefinedCoupon":UndefinedCoupon,
+    "ExpiredCoupon":ExpiredCoupon,
+    "DidntRegisterCouponReward":DidntRegisterCouponReward,
+    "NotEnoughCouponQNTY":NotEnoughCouponQNTY,
+    "AlreadyUsedCoupon":AlreadyUsedCoupon
 }
 
 module.exports = function(errorName) {
