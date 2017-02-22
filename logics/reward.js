@@ -43,6 +43,7 @@ exports.paymentMaterial = (GameUserID, RewardSetGroupID, isSet=true)=>{
     .then((resultArr)=>{
         let mapObj = {item:new Map(), currency:new Map()};
         for(let row of resultArr) {
+            if(row === null) continue;
             if(row['OwnItemUID'] !== undefined) {
                 if(mapObj.item.has(row['OwnItemUID']))
                     mapObj.item.delete(row['OwnItemUID']);
