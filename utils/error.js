@@ -204,6 +204,24 @@ class DidntRegisterRewardGoods extends CustomError {
     }
 }
 
+/** 80701 */
+class UnsupportedReceiptType extends CustomError {
+    constructor() {
+        let message = '지원하지 않거나 존재하지 않는 영수증타입(ReceipType)';
+        let code = 80701;
+        super(message, code);
+    }
+}
+
+/** 80702 */
+class InitializationFirst extends CustomError {
+    constructor() {
+        let message = '초기화를 먼저 진행해야한다.';
+        let code = 80702;
+        super(message, code);
+    }
+}
+
 /** 90101 */
 class UndefinedCoupon extends CustomError {
     constructor() {
@@ -282,7 +300,10 @@ let errorMap = {
     "ExpiredCoupon":ExpiredCoupon,
     "DidntRegisterCouponReward":DidntRegisterCouponReward,
     "NotEnoughCouponQNTY":NotEnoughCouponQNTY,
-    "AlreadyUsedCoupon":AlreadyUsedCoupon
+    "AlreadyUsedCoupon":AlreadyUsedCoupon,
+
+    "UnsupportedReceiptType":UnsupportedReceiptType,
+    "InitializationFirst":InitializationFirst
 }
 
 module.exports = function(errorName) {
