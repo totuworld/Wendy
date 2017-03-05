@@ -32,6 +32,51 @@ class CredentialFailure extends CustomError {
     }
 }
 
+/** 99201 */
+class WrongEmailOrPassword extends CustomError {
+    constructor() {
+        let message = 'email 이나 password가 없거나 틀렸다.';
+        let code = 99201;
+        super(message, code);
+    }
+}
+
+/** 99202 */
+class UsedEmail extends CustomError {
+    constructor() {
+        let message = '이미 사용중인 email';
+        let code = 99202;
+        super(message, code);
+    }
+}
+
+/** 99203 */
+class WrongEmail extends CustomError {
+    constructor() {
+        let message = 'email 형식이 아니다';
+        let code = 99203;
+        super(message, code);
+    }
+}
+
+/** 99204 */
+class WrongPassword extends CustomError {
+    constructor() {
+        let message = 'password는 최소 1개의 숫자 혹은 특수문자를 포함한 8~16자리여야 한다';
+        let code = 99204;
+        super(message, code);
+    }
+}
+
+/** 99205 */
+class LockdownUserAccess extends CustomError {
+    constructor() {
+        let message = 'password 입력 실패 5회로 권한 박탈, 관리자에게 문의!';
+        let code = 99205;
+        super(message, code);
+    }
+}
+
 /** 80101 */
 class UnregisteredDevice extends CustomError {
     constructor() {
@@ -271,6 +316,11 @@ class AlreadyUsedCoupon extends CustomError {
 let errorMap = {
     "DontHaveRequiredParams":DontHaveRequiredParams,
     "CredentialFailure":CredentialFailure,
+    "WrongEmailOrPassword":WrongEmailOrPassword,
+    "UsedEmail":UsedEmail,
+    "WrongEmail":WrongEmail,
+    "WrongPassword":WrongPassword,
+    "LockdownUserAccess":LockdownUserAccess,
     "UnregisteredDevice":UnregisteredDevice,
     "UsedOnOtherDevice":UsedOnOtherDevice,
     "CreateID":CreateID,

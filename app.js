@@ -14,6 +14,7 @@ const item = require('./routes/item');
 const reward = require('./routes/reward');
 const coupon = require('./routes/coupon');
 const receipt = require('./routes/receipt');
+const auth = require('./routes/auth');
 
 let app = express();
 
@@ -36,6 +37,7 @@ app.use('/item', item);
 app.use('/reward', reward);
 app.use('/coupon', coupon);
 app.use('/receipt', receipt);
+app.use('/auth', auth);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

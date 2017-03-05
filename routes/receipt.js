@@ -74,9 +74,24 @@ router.post('/validation/:ReceiptType', auth.isAuthenticated, (req, res, next)=>
             GameUserID:req.user.GameUserID
         });
     })
-    //TODO : 자원 지급 로직으로 변경
-    .then(()=>{
-        return Promise.resolve()
+    .then((createLogReceipt)=>{
+        if(createLogReceipt.State === 10) {
+            return models.DefineShop.findOne({
+                where:{ProductName:req.body.ProductName}})
+        }
+        return Promise.resolve(null);
+    })
+    //자원 지급.
+    .then((findShopData)=>{
+        if(findShopData === null || findShopData === undefined) 
+            return Promise.resolve({currency:null, item:null});
+        return rewardCtrl.paymentMaterial(
+            req.user.GameUserID, 
+            findShopData['RewardSetGroupID']!==NULL
+            ?findShopData['RewardSetGroupID']
+            :findShopData['RewardGoodsGroupID'],
+            findShopData['RewardSetGroupID']!==NULL
+            );
     })
     .then((rewardResult)=>{
         res.send({result:saveValidationResult, reward:rewardResult})
