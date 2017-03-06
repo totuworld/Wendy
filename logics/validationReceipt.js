@@ -81,12 +81,20 @@ exports.checkIOSReceipt = (receipt)=>{
                         reject({ result: 1, err:error });
                     }
                     // sandbox validated
-                    resolve({ result: 0, store:'dev' });
+                    let productName = 
+                        data.receipt.in_app.length > 0
+                        ? data.receipt.in_app[0]['product_id']
+                        : null;
+                    resolve({ result: 0, store:'dev', ProductName:productName});
                 });
                 return;
             }
+            let productName = 
+                data.receipt.in_app.length > 0
+                ? data.receipt.in_app[0]['product_id']
+                : null;
             // production validated
-            resolve({ result: 0, store:'production' });
+            resolve({ result: 0, store:'production', ProductName:productName });
         });
     })
 }
@@ -111,29 +119,17 @@ exports.checkAOSReceipt =(receipt)=>{
             return Promise.reject(e);
         }
     }
-    else {
+    else if(receipt.hasOwnProperty('json')) {
         jsonStr = receipt['json']
             .replace(/\\"/g, '"')
             .replace('"{', '{')
             .replace('}"', '}');
         parseRawRecipt = jsonStr;
     }
-        
-    let mainNode = null;
 
-    mainNode = parseRawRecipt['json'];
-    if(typeof mainNode === 'string') {
-        try {
-            mainNode = JSON.parse(mainNode);
-        }
-        catch(e) {
-            return Promise.reject(e);
-        }
-    }
-
-    let packageName = mainNode.packageName;
-    let productId = mainNode.productId;
-    let token = mainNode.purchaseToken;
+    let packageName = parseRawRecipt.packageName;
+    let productId = parseRawRecipt.productId;
+    let token = parseRawRecipt.purchaseToken;
 
     return new Promise(function (resolve, reject) {
         
@@ -147,10 +143,10 @@ exports.checkAOSReceipt =(receipt)=>{
                 reject({result:1, err:null});
             }
             else if (parseBody.purchaseState === 0) {
-                resolve({result:0, res:body});
+                resolve({result:0, res:body, ProductName:productId});
             }
             else {
-                reject({result:1, err:body});
+                reject({result:1, err:body, ProductName:productId});
             }
         });
     });
@@ -179,9 +175,11 @@ exports.checkOneStoreReceipt = (receipt)=>{
 }
 
 function CheckOneStoreReceipt(jsonReceipt, storeType) {
-    let jsonObj;
+    let jsonObj = jsonReceipt;
     try {
-        jsonObj = JSON.parse(jsonReceipt);
+        if(typeof jsonStr === 'string') {
+            jsonObj = JSON.parse(jsonReceipt);
+        }
     }
     catch(e) {
         return Promise.reject(e);
@@ -194,9 +192,12 @@ function CheckOneStoreReceipt(jsonReceipt, storeType) {
                 return;
             }
             let jsonResult = body;
-
             if(jsonResult.status === 0) {
-                resolve({result:0, res:jsonResult, store:storeType});
+                let productName = 
+                    jsonResult.product[0].hasOwnProperty('product_id')
+                    ? jsonResult.product[0]['product_id']
+                    : null;
+                resolve({result:0, res:jsonResult, store:storeType, ProductName:productName});
             }
             else {
                 resolve({result:1, err:jsonResult.Detail*1, store:storeType});

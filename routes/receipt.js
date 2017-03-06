@@ -36,6 +36,7 @@ router.post('/validation/:ReceiptType', auth.isAuthenticated, (req, res, next)=>
         throw wendyError('UnsupportedReceiptType');
     
     let saveValidationResult = 0;
+    let productName = req.body.ProductName;
 
     Promise.resolve()
     //영수증 검증.
@@ -65,6 +66,10 @@ router.post('/validation/:ReceiptType', auth.isAuthenticated, (req, res, next)=>
     })
     //검증 결과 기록.
     .then((result)=>{
+        productName = 
+            result.hasOwnProperty('ProductName')
+            ? result['ProductName']
+            : req.body.ProductName;
         saveValidationResult = result.result;
         return models.LogReceipt.create({
             State:result.result===1?1:10,
@@ -77,7 +82,7 @@ router.post('/validation/:ReceiptType', auth.isAuthenticated, (req, res, next)=>
     .then((createLogReceipt)=>{
         if(createLogReceipt.State === 10) {
             return models.DefineShop.findOne({
-                where:{ProductName:req.body.ProductName}})
+                where:{ProductName:productName}})
         }
         return Promise.resolve(null);
     })
