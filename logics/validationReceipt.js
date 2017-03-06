@@ -14,7 +14,7 @@ let iapStatus = {
 exports.iapStatus = iapStatus;
 
 function InitIAPStatus() {
-    models.AuthGoogle.findOne({where:{expireTimeStamp:{$lte:new Date()}}})
+    models.AuthGoogle.findOne({where:{expireTimeStamp:{$gte:new Date()}}})
     .then((findAuthGoogle)=>{
         if( (findAuthGoogle===null
             ||findAuthGoogle==undefined) ) {
@@ -54,7 +54,7 @@ exports.UpdateIAPStatus = (access_token, token_type, expires_in, refresh_token='
     
     return models.AuthGoogle.findAll()
     .then((findList)=>{
-        if(findList===null || findList===undefined) 
+        if( !(findList===null || findList===undefined) ) 
             return models.AuthGoogle.update(
                 updateObj, 
                 {where:{AuthGoogleID:findList[0]['AuthGoogleID']}
