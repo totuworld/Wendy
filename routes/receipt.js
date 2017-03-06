@@ -87,10 +87,10 @@ router.post('/validation/:ReceiptType', auth.isAuthenticated, (req, res, next)=>
             return Promise.resolve({currency:null, item:null});
         return rewardCtrl.paymentMaterial(
             req.user.GameUserID, 
-            findShopData['RewardSetGroupID']!==NULL
+            findShopData['RewardSetGroupID']!==null
             ?findShopData['RewardSetGroupID']
             :findShopData['RewardGoodsGroupID'],
-            findShopData['RewardSetGroupID']!==NULL
+            findShopData['RewardSetGroupID']!==null
             );
     })
     .then((rewardResult)=>{
