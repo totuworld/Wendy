@@ -9,11 +9,20 @@
  */
 exports.ObjectExistThatKeys = (obj, keyArr)=>{
     for(let key of keyArr) {
-        if(obj[key]===null || obj[key]===undefined) {
-            return false;
-        }
+        if(obj.hasOwnProperty(key)===false) return false;
     }
     return true;
+}
+
+/**
+ * object에 key가 적어도 하나라도 포함되어있는지 체크.
+ */
+exports.ObjectIncludeOneKey = (obj, keyArr)=>{
+    for(let argValue of keyArr) {
+        if(obj.hasOwnProperty(argValue) === true)
+            return true;
+    }
+    return false;
 }
 
 /**
@@ -43,3 +52,15 @@ function async(makeGenerator) {
 }
 
 exports.async = async;
+
+const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+exports.checkEmail = (email)=>{
+    return emailRegEx.test(email);
+}
+
+const passwordRegEx = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{8,16}$/
+
+exports.checkPassword = (password)=>{
+    return passwordRegEx.test(password);
+}

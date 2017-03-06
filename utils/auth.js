@@ -41,3 +41,29 @@ exports.isAuthenticated = (req, res, next) =>{
         }
     });
 }
+
+const crypto = require('crypto');
+const cryptoPassword = 
+    process.env.cryptoPassword || 'wendy';
+
+exports.encryptPassword = (password)=>{
+    let hash = crypto.createHash('sha256')
+        .update(cryptoPassword).digest('base64');
+    return hash;
+}
+
+exports.isAdminAuthenticated = (req, res, next)=>{
+    jwt.verify(req.headers.authorization, SECRET, (err, decoded)=>{
+        if(err || decoded.grade < 10) {
+            let error = wendyError('CredentialFailure');
+            res.status(401).send({result:error.code, message:error.message});
+        }
+        else {
+            req.admin = {
+                email:decoded.email,
+                grade:decoded.grade
+            };
+            return next();
+        }
+    });
+}

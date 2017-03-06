@@ -27,7 +27,7 @@ router.get('/list', auth.isAuthenticated, (req, res, next) => {
 })
 
 /**
- * @api {GET} /coupon/use/:CouponName
+ * @api {POST} /coupon/use/:CouponName
  * @apiName 쿠폰 사용
  */
 router.post('/use/:CouponName', auth.isAuthenticated, (req, res, next)=>{
