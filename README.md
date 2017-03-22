@@ -48,7 +48,7 @@ Wendy가 지원할 필수 기능입니다.
 - [x] 아이템 관리
 - [x] 지급 관리
 - [x] 쿠폰
-- [ ] 인앱 영수증 검증
+- [x] 인앱 영수증 검증
 
 ### 부가 기능
 차후 구현이 될만한 기능들 목록입니다. 이 중 요구가 많은 것을 중심으로 구현될 예정입니다.
@@ -69,3 +69,4 @@ Wendy가 지원할 필수 기능입니다.
 4. [통화 관리](http://totuworld.github.io/2017/01/26/azureandunity-04/)
 5. [아이템 관리](http://totuworld.github.io/2017/02/09/azureandunity-05/)
 6. [자원 지급 관리](http://totuworld.github.io/2017/02/21/azureandunity-06/)
+7. [인앱 영수증 검증](http://totuworld.github.io/2017/03/07/azureunity-07/)
