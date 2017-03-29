@@ -9,7 +9,9 @@
  */
 exports.ObjectExistThatKeys = (obj, keyArr)=>{
     for(let key of keyArr) {
-        if(obj.hasOwnProperty(key)===false) return false;
+        if(obj[key]===null || obj[key]===undefined) {
+            return false;
+        }
     }
     return true;
 }
